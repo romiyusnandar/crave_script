@@ -166,7 +166,13 @@ start_build_process() {
   START_TIME=$(date +%s)
 
   echo "Sending build start message..."
-  tg_send "⚙️ <b>ROM Build Started!</b>%0A%0A• <b>ROM:</b> ${BUILD_TARGET}%0A• <b>Android:</b> ${ANDROID_VERSION}%0A• <b>Device:</b> ${DEVICE_CODE}%0A• <b>Server:</b> foss.crave.io%0A• <b>Start:</b> $(date '+%Y-%m-%d %H:%M:%S %Z')"
+  tg_send "⚙️ <b>ROM Build Started!</b>
+
+• <b>ROM:</b> ${BUILD_TARGET}
+• <b>Android:</b> ${ANDROID_VERSION}
+• <b>Device:</b> ${DEVICE_CODE}
+• <b>Server:</b> foss.crave.io
+• <b>Start:</b> $(date '+%Y-%m-%d %H:%M:%S %Z')"
 
   echo "Removing local changes..."
   rm -rf .repo/local_manifests
@@ -214,12 +220,26 @@ start_build_process() {
 
     if [[ "$UPLOAD_RESULT" != "UPLOAD_FAILED" ]]; then
       IFS='|' read -r FILENAME FILESIZE GOLINK <<< "$UPLOAD_RESULT"
-      tg_send "✅ <b>ROM Build Finished!</b>%0A%0A• <b>ROM:</b> ${BUILD_TARGET}%0A• <b>Device:</b> ${DEVICE_CODE}%0A• <b>File:</b> ${FILENAME}%0A• <b>Size:</b> ${FILESIZE}%0A• <b>Link:</b> ${GOLINK}%0A• <b>Duration:</b> ${DURATION_FORMATTED}"
+      tg_send "✅ <b>ROM Build Finished!</b>
+
+• <b>ROM:</b> ${BUILD_TARGET}
+• <b>Device:</b> ${DEVICE_CODE}
+• <b>File:</b> ${FILENAME}
+• <b>Size:</b> ${FILESIZE}
+• <b>Link:</b> ${GOLINK}
+• <b>Duration:</b> ${DURATION_FORMATTED}"
     else
-      tg_send "✅ <b>ROM Build Finished!</b> (upload failed)%0A%0A• <b>Device:</b> ${DEVICE_CODE}%0A• <b>Duration:</b> ${DURATION_FORMATTED}"
+      tg_send "✅ <b>ROM Build Finished!</b> (upload failed)
+
+• <b>Device:</b> ${DEVICE_CODE}
+• <b>Duration:</b> ${DURATION_FORMATTED}"
     fi
   else
-    tg_send "❌ <b>ROM Build Failed!</b>%0A%0A• <b>Device:</b> ${DEVICE_CODE}%0A• <b>Exit code:</b> ${BUILD_STATUS}%0A• <b>Duration:</b> ${DURATION_FORMATTED}"
+    tg_send "❌ <b>ROM Build Failed!</b>
+
+• <b>Device:</b> ${DEVICE_CODE}
+• <b>Exit code:</b> ${BUILD_STATUS}
+• <b>Duration:</b> ${DURATION_FORMATTED}"
     exit "$BUILD_STATUS"
   fi
 }
