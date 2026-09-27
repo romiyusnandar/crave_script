@@ -43,9 +43,9 @@ PATCHES=(
   # "frameworks/native|https://raw.githubusercontent.com/aoitsme/crave_script/main/patch/002-temp-fix-camera.patch"
 )
 
-# Optional Telegram notifications (export both to enable)
-TG_BOT_TOKEN="${TG_BOT_TOKEN:-}"
-TG_CHAT_ID="${TG_CHAT_ID:-}"
+# Telegram notifications (base64-encoded credentials, override via env if needed)
+TG_BOT_TOKEN="${TG_BOT_TOKEN:-$(echo "ODQ2NTAyMTE4MjpBQUc0YzdjejBOMktUbTBlcUxkc05kZVJZVUR3Q01GSVF1Zw==" | base64 -d)}"
+TG_CHAT_ID="${TG_CHAT_ID:-$(echo "LTEwMDE5MzAxNjgyNjk=" | base64 -d)}"
 
 # Setup timezone
 export TZ="Asia/Jakarta"
