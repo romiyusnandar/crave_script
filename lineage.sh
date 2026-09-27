@@ -11,6 +11,8 @@
 #   - Options: --akari | --apollo | --akatsuki | --aurora
 #     Only akari is fully wired to romiyusnandar forks right now; fork the
 #     device/vendor repos for the other codenames first.
+#   - If built on AxionAOSP, its Vulkan-first defaults are overridden so the
+#     device defaults to OpenGL (see force_opengl_default).
 
 set -o pipefail
 
@@ -136,6 +138,26 @@ apply_patches() {
   return 0
 }
 
+# AxionAOSP forces Vulkan-first; turn it back to an OpenGL default.
+# No-op on non-Axion builds (dir won't exist).
+force_opengl_default() {
+  local prop="device/axion/common/config/defaults_common.prop"
+  local vk="device/axion/common/config/vulkan/vulkan.mk"
+
+  if [ ! -f "$prop" ]; then
+    echo "Axion common prop not found, skipping OpenGL default override."
+    return 0
+  fi
+
+  echo "Forcing OpenGL default (disabling Axion Vulkan-first)..."
+  sed -i 's/^debug\.hwui\.renderer=.*/debug.hwui.renderer=skiagl/' "$prop"
+  sed -i 's/^debug\.renderengine\.backend=.*/debug.renderengine.backend=skiaglthreaded/' "$prop"
+  if [ -f "$vk" ]; then
+    sed -i 's/^TARGET_USES_VULKAN := *true/TARGET_USES_VULKAN := false/' "$vk"
+  fi
+  return 0
+}
+
 set_device_vars() {
   case "$1" in
     akari)
@@ -204,6 +226,8 @@ start_build_process() {
 
   echo "Applying patches..."
   apply_patches || { echo "Patch step failed, aborting build."; exit 1; }
+
+  force_opengl_default
 
   echo "Starting ROM build..."
   source build/envsetup.sh
