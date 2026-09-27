@@ -41,8 +41,8 @@ VENDOR_COMMON_BRANCH="lineage-23.2"
 # Format: "target_path|patch_url"  (applied with `git am -3`)
 # Uncomment the camera fix below to mirror aoitsme's axion.sh.
 PATCHES=(
-  # "frameworks/native|https://raw.githubusercontent.com/aoitsme/crave_script/main/patch/001-temp-fix-camera.patch"
-  # "frameworks/native|https://raw.githubusercontent.com/aoitsme/crave_script/main/patch/002-temp-fix-camera.patch"
+  "frameworks/native|https://raw.githubusercontent.com/aoitsme/crave_script/main/patch/001-temp-fix-camera.patch"
+  "frameworks/native|https://raw.githubusercontent.com/aoitsme/crave_script/main/patch/002-temp-fix-camera.patch"
 )
 
 # Telegram notifications (base64-encoded credentials, override via env if needed)
